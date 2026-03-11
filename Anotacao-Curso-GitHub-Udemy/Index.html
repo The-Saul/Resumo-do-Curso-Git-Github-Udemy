@@ -1,0 +1,760 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Git e GitHub</title>
+    <style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="31dd34f7-f805-806a-bc7b-c9a56d9e0e14" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.1.0&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 64.53%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon notion-static-icon" src="https://www.notion.so/icons/git_gray.svg"/></div><h1 class="page-title" dir="auto">Git e GitHub</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80d5-8af5-d1e394d90978" class="">
+</p></div><div style="display:contents" dir="auto"><h1 id="31dd34f7-f805-8058-bb54-d6ebdc3adc3f" class="">O que é Git?</h1></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8071-bc07-ed81020455f7" class=""><br/>O <strong>Git</strong> é um <strong>sistema de controle de versão distribuído</strong> utilizado para registrar e gerenciar alterações em arquivos ao longo do tempo, especialmente em projetos de software. Ele permite que desenvolvedores acompanhem o histórico de modificações feitas em um projeto, retornem a versões anteriores quando necessário e trabalhem de forma organizada mesmo quando várias pessoas estão modificando os mesmos arquivos. </p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8033-acbd-dd2778adc8b8" class="">O Git funciona registrando <strong>snapshots do estado do projeto em momentos específicos</strong>, chamados de <strong>commits</strong>, que ficam armazenados no repositório. Cada commit representa uma versão do projeto e contém informações como as alterações realizadas, o autor da modificação, a data e uma mensagem descritiva. </p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80e1-974c-f9fdaa99844e" class="">Por ser um sistema <strong>distribuído</strong>, cada desenvolvedor possui uma cópia completa do repositório em sua própria máquina, incluindo todo o histórico de commits, o que permite trabalhar localmente sem depender constantemente de um servidor central.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80a6-bfda-ce2a24c5f0b0" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80a7-810f-efa315a23fc8" class=""><br/><br/></p></div><div style="display:contents" dir="auto"><h1 id="31dd34f7-f805-80db-855d-ebdf5de1500d" class="">Qual a diferença de Git e GitHub?</h1></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8051-b0a6-f35740f5aa13" class=""><br/>A diferença entre <strong>Git e GitHub</strong> está no papel que cada um desempenha. O <strong>Git</strong> é a ferramenta de controle de versão em si, ou seja, o sistema que gerencia o histórico de alterações do projeto e permite executar operações como <mark class="highlight-teal"><code>git add</code></mark>, <mark class="highlight-teal"><code>git commit</code></mark>, <mark class="highlight-teal"><code>git push</code></mark> e <mark class="highlight-teal"><code>git pull</code></mark>. Ele funciona diretamente no computador do desenvolvedor e pode ser utilizado completamente offline. </p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-800d-97ea-ebe16dd99186" class="">Já o <strong>GitHub</strong> é uma <strong>plataforma online de hospedagem de repositórios Git</strong>, que funciona como um servidor remoto onde os repositórios podem ser armazenados, compartilhados e acessados por outras pessoas. </p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8015-acd8-ff9039dd0c13" class="">Em outras palavras, o Git é a tecnologia que faz o controle de versões, enquanto o GitHub é um serviço na internet que permite armazenar repositórios Git, colaborar com outros desenvolvedores, gerenciar projetos e facilitar o trabalho em equipe.<br/><br/></p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80ee-b2b4-f928c6f8aa0b" class="">
+</p></div><div style="display:contents" dir="auto"><h1 id="31dd34f7-f805-8042-a238-e706a504f156" class="">WorkFlow do Git</h1></div><div style="display:contents" dir="auto"><h3 id="31dd34f7-f805-80ea-b1b9-fdacffa7a68c" class=""><em><strong>Criando Repositório:</strong></em></h3></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80bd-8fae-cff49dbef516" class="">Primeiro criamos um repositório Git executando o comando <mark class="highlight-teal"><code>git init</code></mark> dentro de um diretório do sistema operacional. A partir desse momento, aquele diretório passa a ser um <strong>repositório Git</strong>, pois o Git cria internamente a pasta oculta <mark class="highlight-teal"><code>.git</code></mark>, onde ficam armazenados o histórico de versões, commits, branches e demais informações de controle de versão. Dentro desse repositório existe o <strong>Working Directory</strong>, que é o diretório de trabalho onde os arquivos do projeto realmente ficam e onde o programador realiza alterações, cria novos arquivos, modifica códigos ou remove conteúdos. Quando um arquivo é criado ou alterado no Working Directory, o Git detecta essas mudanças, mas elas ainda não fazem parte do histórico do projeto.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-802e-b7e4-e4f9a63c96fd" class="">
+</p></div><div style="display:contents" dir="auto"><h3 id="31dd34f7-f805-80be-a79a-d43f8c9eacbc" class=""><em><strong>Stagin Area</strong></em></h3></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80b8-8c86-f4cb1f924aa5" class="">Para preparar essas alterações para serem registradas no histórico do Git, utilizamos o comando <mark class="highlight-teal"><code>git add</code></mark>, que envia os arquivos modificados para a <strong>Staging Area</strong>. A Staging Area é uma área intermediária onde ficam armazenadas temporariamente as alterações que serão incluídas no próximo commit. Essa área funciona como uma espécie de “área de preparação”, permitindo que o programador escolha exatamente quais modificações deseja registrar no histórico naquele momento. Caso um arquivo tenha sido adicionado à Staging Area por engano, é possível removê-lo dessa área utilizando o comando <mark class="highlight-teal"><code>git restore --staged &lt;arquivo&gt;</code></mark> ou, em alguns casos, <mark class="highlight-teal"><code>git reset &lt;arquivo&gt;</code></mark>, fazendo com que ele volte apenas ao estado de modificado no Working Directory.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8024-8ee2-ed76e6ab7d16" class="">Depois que as alterações desejadas estão na Staging Area, utilizamos o comando <mark class="highlight-teal"><code>git commit</code></mark> para registrar essas mudanças no <strong>repositório local</strong>. O commit pode ser entendido como um <strong>snapshot do projeto naquele momento</strong>, isto é, uma espécie de “foto” do estado atual dos arquivos preparados na Staging Area. Cada commit gera um registro permanente no histórico do Git, contendo as alterações realizadas, a mensagem descritiva do commit, o autor da modificação e um identificador único (hash) que permite localizar aquela versão específica do projeto no tempo.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-807d-87f6-d0d32dee7b2f" class="">
+</p></div><div style="display:contents" dir="auto"><h3 id="31dd34f7-f805-808c-82c5-fc52d8e1f296" class=""><em><strong>Commit, Push, Pull e Repositório (Local e Remoto)</strong></em></h3></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-809f-844d-facc68a1968d" class="">Esses commits são armazenados inicialmente no <strong>Local Repository</strong>, que é o repositório Git presente na própria máquina do desenvolvedor. Caso o projeto utilize um repositório remoto, como um servidor ou uma plataforma de hospedagem de código, os commits podem ser enviados para esse servidor utilizando o comando <mark class="highlight-teal"><code>git push</code></mark>. O <mark class="highlight-teal"><code>git push</code></mark> envia os commits do repositório local para o <strong>Remote Repository</strong>, permitindo que outras pessoas tenham acesso às alterações realizadas no projeto. Por outro lado, quando existem atualizações no repositório remoto feitas por outros desenvolvedores, podemos utilizar o comando <mark class="highlight-teal"><code>git pull</code></mark> para baixar essas alterações para o repositório local. O <mark class="highlight-teal"><code>git pull</code></mark> basicamente realiza duas operações: primeiro ele busca as atualizações do servidor remoto e depois integra essas mudanças ao repositório local, mantendo o projeto sincronizado.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8052-9f41-c2dff668ea17" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80ad-8c8d-dfe9df7fa153" class="">Dessa forma, o fluxo básico de trabalho no Git segue uma sequência lógica: o desenvolvedor modifica arquivos no <strong>Working Directory</strong>, utiliza <mark class="highlight-teal"><code>git add</code></mark> para enviar as alterações para a <strong>Staging Area</strong>, registra essas alterações no histórico através de <mark class="highlight-teal"><code>g</code></mark><mark class="highlight-teal"><mark class="highlight-default_background"><code>it commi</code></mark></mark><mark class="highlight-teal"><code>t</code></mark>, armazenando-as no <strong>Local Repository</strong>, e finalmente utiliza <mark class="highlight-teal"><code>git push</code></mark> para enviar esses commits para o <strong>Remote Repository</strong>. Quando novas alterações estão disponíveis no servidor remoto, o desenvolvedor pode utilizar <mark class="highlight-teal"><code>git pull</code></mark> para trazê-las para sua máquina, garantindo que todos estejam trabalhando sobre a versão mais atual do projeto.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8019-b7fe-e713ddb17b2e" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80b2-826b-e113e8616406" class="">
+</p></div><div style="display:contents" dir="auto"><h1 id="31dd34f7-f805-8055-9382-f96a2f7dfe10" class="">Os Comandos <mark class="highlight-teal"><mark class="highlight-default_background"><code>“git rm&quot;</code></mark></mark> e <mark class="highlight-teal"><mark class="highlight-default_background"><code>“git add&quot;</code></mark></mark> São Opostos?</h1></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-801b-b24a-cc1c112dc2de" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-806e-a0eb-d822877a9613" class="">O <strong>Git não é diretamente responsável por criar ou apagar arquivos</strong>, pois essa é uma função do sistema operacional ou das ferramentas utilizadas pelo desenvolvedor. Arquivos e pastas podem ser criados com comandos do sistema como <mark class="highlight-teal"><code>mkdir</code></mark> (criar pasta), <mark class="highlight-teal"><code>touch</code></mark> (criar arquivo) ou diretamente por meio de um editor de código. O papel do Git é <strong>rastrear e registrar as mudanças que acontecem nesses arquivos dentro do projeto</strong>, mantendo um histórico das versões ao longo do tempo.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-80bf-963f-cdd30d5c120f" class="">Quando um arquivo novo é criado no <strong>Working Directory</strong>, ele aparece no Git como <strong>Untracked</strong> (não rastreado). Para que o Git passe a versionar esse arquivo, usamos <mark class="highlight-teal"><code>git add</code></mark>, que envia essa alteração para a <strong>Staging Area</strong>, ou seja, prepara essa mudança para o próximo commit. O comando <mark class="highlight-teal"><code>git add</code></mark> não cria arquivos; ele apenas <strong>prepara alterações (criação, modificação ou remoção de arquivos) para serem registradas no histórico</strong>.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8069-99ed-d275fa75197e" class="">O comando <mark class="highlight-teal"><code>git rm</code></mark> serve para <strong>remover um arquivo do projeto</strong>. Ele apaga o arquivo do <strong>Working Directory</strong> e já registra essa remoção na <strong>Staging Area</strong>, preparando-a para o próximo commit. Após executar <mark class="highlight-teal"><code>git commit</code></mark>, essa remoção passa a fazer parte do histórico do repositório. Assim, ao utilizar <mark class="highlight-teal"><code>git rm</code></mark>, o arquivo é removido do diretório do projeto e essa remoção é registrada para ser incluída no próximo commit.</p></div><div style="display:contents" dir="auto"><p id="31dd34f7-f805-8045-a7fe-fa96889f840a" class="">Portanto, <mark class="highlight-teal"><code><strong>git add</strong></code></mark><strong> e </strong><mark class="highlight-teal"><code><strong>git rm</strong></code></mark><strong> não são opostos diretos</strong>. O <mark class="highlight-teal"><code>git add</code></mark> prepara alterações para o commit, enquanto o <mark class="highlight-teal"><code>git rm</code></mark> remove um arquivo do projeto e registra essa remoção. De forma geral, o <strong>sistema operacional cria ou remove arquivos</strong>, e o <strong>Git registra essas mudanças no histórico do projeto</strong>.</p></div><div style="display:contents" dir="auto"><p id="31ed34f7-f805-80d2-942a-cb99ac27a54f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31ed34f7-f805-80fc-9b76-cd9adc952e81" class="">
+</p></div><div style="display:contents" dir="auto"><h1 id="31ed34f7-f805-80e0-8b69-edf0d142b251" class="">Git Reset e Git Revert</h1></div><div style="display:contents" dir="auto"><h3 id="31ed34f7-f805-8003-abe8-e7aa05c1ea25" class="">Git Reset </h3></div><div style="display:contents" dir="auto"><p id="31ed34f7-f805-80cc-871a-da66ee22ba56" class="">O comando <mark class="highlight-teal"><code><strong>git reset</strong></code></mark> serve para <strong>mover o ponteiro do histórico para um commit anterior</strong>, removendo da linha atual do histórico os commits mais recentes. Por exemplo, se o histórico for   <strong>A → B → C → D</strong> e executarmos <mark class="highlight-teal"><code>git reset --soft HEAD~1</code></mark>, o repositório volta para <strong>A → B → C</strong>, removendo o commit <strong>D</strong> do histórico atual, mas mantendo as alterações desse commit na <strong>Staging Area</strong>, prontas para um novo commit. Já com <mark class="highlight-teal"><code>git reset --hard HEAD~1</code></mark>, o repositório também volta para <strong>A → B → C</strong>, porém as alterações do commit <strong>D</strong> são <strong>apagadas</strong>, e o Working Directory e a Staging Area voltam exatamente para o estado do commit <strong>C</strong>. Portanto, o <mark class="highlight-teal"><code>git reset</code></mark> <strong>reescreve o histórico da branch</strong>, removendo commits da linha atual. </p></div><div style="display:contents" dir="auto"><p id="31ed34f7-f805-80a8-92e6-d711dc4ac917" class="">Existe também o <mark class="highlight-teal"><code><strong>git reset --mixed</strong></code></mark>, que é <strong>o modo padrão do </strong><mark class="highlight-teal"><code><strong>git reset</strong></code></mark> quando nenhum modo é especificado. Nesse caso, o repositório também volta para o commit anterior, removendo o commit mais recente da linha atual do histórico, porém as alterações desse commit <strong>não são apagadas</strong> e <strong>não permanecem na Staging Area</strong>. Em vez disso, elas voltam para o <strong>Working Directory</strong> como modificações ainda não preparadas para commit.<br/></p></div><div style="display:contents" dir="auto"><h3 id="31ed34f7-f805-8052-9cc4-f3472fff92fc" class="">Git Revert</h3></div><div style="display:contents" dir="auto"><p id="31ed34f7-f805-8057-bb40-c1b1859d8e7f" class="">O comando <mark class="highlight-teal"><code><strong>git revert</strong></code></mark> funciona de forma diferente, pois <strong>não remove commits do histórico</strong>. Em vez disso, ele cria um <strong>novo commit que desfaz as alterações de um commit anterior</strong>. Por exemplo, se o histórico for <strong>A → B → C → D</strong> e executarmos <mark class="highlight-teal"><code>git revert HEAD</code></mark>, o Git criará um novo commit <strong>E</strong>, resultando em <strong>A → B → C → D → E</strong>, onde <strong>E desfaz as alterações feitas em D</strong>. Dessa forma, todo o histórico original é preservado.<br/><br/></p></div><div style="display:contents" dir="auto"><p id="31ed34f7-f805-8037-99e7-fdec21a88eed" class="">
+</p></div><div style="display:contents" dir="auto"><h1 id="31ed34f7-f805-80ff-af29-e38f7fd9f905" class="">Git Tree Moviments Visualized</h1></div><div style="display:contents" dir="ltr"><figure id="31ed34f7-f805-8000-b96e-f7ac8716cd1d" class="image"><a href="image.png"><img style="width:703.989990234375px" src="./source/images/image.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="31fd34f7-f805-80e8-bec4-d89029b0438f" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="31fd34f7-f805-80d1-9960-c5a976858e7c"/></div><div style="display:contents" dir="auto"><p id="31fd34f7-f805-80ac-aa51-e2eed10f398e" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31fd34f7-f805-80c0-b6aa-f63e2773c51d" class="">
+</p></div><div style="display:contents" dir="auto"><p id="31fd34f7-f805-8054-bca6-dbac214a2e7f" class="">
+</p></div><div style="display:contents" dir="auto"><h1 id="31fd34f7-f805-8046-994c-c44d92dcb92e" class="">Branch</h1></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80d4-9686-ea05e13a5520" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8056-8e1a-cd6024addc8d" class="">Uma B<strong>ranch</strong> é uma <strong>linha de desenvolvimento independente dentro do mesmo projeto</strong>. </p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80c6-8c48-d697d3f8d478" class="">Ela permite que você <strong>trabalhe em novas funcionalidades, correções ou testes sem afetar o código principal</strong>.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80aa-89f7-c05ba3374c2a" class="">A branch padrão geralmente se chama <mark class="highlight-teal"><code><strong>main</strong></code></mark> (antigamente era <mark class="highlight-teal"><code>master</code></mark>).</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8070-a4d3-f27fcbcf189d" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80e0-89e0-c42e32830a79" class="">As Branches são usadas para:<div class="indented"><div style="display:contents" dir="auto"><ul id="320d34f7-f805-806b-9d49-ec5f3a4b8b70" class="bulleted-list"><li style="list-style-type:disc">desenvolver <strong>novas funcionalidades</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-803e-8462-d7c7cb375f74" class="bulleted-list"><li style="list-style-type:disc"><strong>corrigir bugs</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-8035-bd5d-c87676510c48" class="bulleted-list"><li style="list-style-type:disc"><strong>testar ideias</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-8001-aa8c-ed686b0682e2" class="bulleted-list"><li style="list-style-type:disc">trabalhar em equipe <strong>sem quebrar o projeto principal</strong></li></ul></div></div></p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-808f-af1d-e946929c6675" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-805a-bd0a-eac7b960e128" class="">
+</p></div><div style="display:contents" dir="auto"><h2 id="320d34f7-f805-8035-9591-e1984e73756a" class="">O que acontece com os commits numa branch?</h2></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8006-9944-f9a799cc05d5" class="">Quando você está em uma branch e faz commits, <strong>eles pertencem apenas a essa branch</strong>.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80d6-bbd7-f4e38d6f7b19" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="320d34f7-f805-803e-b557-eb7d3c4f7368" class="code code-wrap"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">A → B → C
+        ↑
+       main
+        \
+         D → E
+             ↑
+        login-feature</code></pre></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8012-8b1c-fe103f81dc44" class="">Agora existem <strong>duas linhas de desenvolvimento</strong>.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80d2-9964-cf8bd6e055fb" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80ca-a4f2-c417c3fcc0c0" class="">
+</p></div><div style="display:contents" dir="auto"><h2 id="320d34f7-f805-80db-8337-c3d2ef51a1cc" class="">O que acontece quando terminamos o desenvolvimento na Branch secundária?</h2></div><div style="display:contents" dir="auto"><h3 id="320d34f7-f805-80f5-940d-c3549cf70ef9" class="">Juntamos as Branches secundárias com o main usando o Merge</h3></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8051-af5a-d9acab093b97" class="">Quando a funcionalidade estiver pronta, podemos <strong>juntar a branch com a main</strong> usando:</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8078-a594-e52c537c6d63" class=""><mark class="highlight-teal"><code>&quot;git merge nome-da-branch&quot;</code></mark><mark class="highlight-teal"><mark class="highlight-default_background"> </mark></mark>Isso <strong>integra o código da branch no projeto principal</strong>.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80e5-b7ae-c9e8bf5927f3" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8038-8d35-c9a334f2d271" class="">
+</p></div><div style="display:contents" dir="auto"><h2 id="320d34f7-f805-8012-adeb-d771245809f0" class="">O merge é a mesma coisa que um commit?</h2></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-808d-9c24-ea4330c5a0f5" class="">Não exatamente. <strong>Merge não é simplesmente um commit comum</strong>, mas na maioria das vezes <strong>ele gera um tipo especial de commit chamado </strong><em><strong>merge commit</strong></em>. A diferença é que um commit normal possui <strong>apenas um commit pai</strong>, enquanto um <strong>merge commit possui dois pais</strong>, pois ele une o histórico de duas branches diferentes. Porém, em alguns casos o Git faz um <strong>fast-forward</strong>, onde nenhum novo commit é criado; a branch apenas avança para o último commit da outra branch.<br/><br/></p></div><div style="display:contents" dir="auto"><h2 id="31fd34f7-f805-80aa-a2fe-d46a60db1f5d" class="">Códigos Git sobre a Branch:</h2></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-803c-bc76-f7bacad4e31c" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-teal"><code>git branch</code></mark> → listar branches</li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-80f3-9ade-d24edc8bd730" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-teal"><code>git branch -a</code></mark>  → mostra todas (locais + remotas)</li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-801b-8206-eef5547e0a31" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-teal"><code>git branch nome</code></mark> → criar branch</li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-80ee-a91b-f07cf8697ae3" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-teal"><code>git checkout nome</code></mark> → trocar de branch</li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-8052-b58e-f8dabebe328c" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-teal"><code>git checkout -b nome</code></mark> → criar e trocar</li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-8080-af54-c63d32afe296" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-teal"><code>git merge branch</code></mark> → juntar branch secundária com branch main</li></ul></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8040-8d50-cf76f28a4cb8" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="320d34f7-f805-8051-bb36-cbcfae108c36"/></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80df-9e71-f901531215bb" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-805c-b599-c17fe915e2f3" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80ae-9dc2-c34105c2e7e3" class="">
+</p></div><div style="display:contents" dir="auto"><h1 id="320d34f7-f805-80ce-adfa-e7e733c14ced" class="">O que é GitHub?</h1></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8048-9d8e-cf682001b6f8" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8083-8f2f-d6171224b97b" class="">O <strong>GitHub</strong> é uma <strong>plataforma online de hospedagem de repositórios Git</strong>. Ele permite que desenvolvedores armazenem seus projetos na internet, acompanhem o histórico de versões e colaborem com outras pessoas no mesmo código. Enquanto o <strong>Git</strong> é o sistema de controle de versão que funciona localmente no computador, o GitHub funciona como um <strong>repositório remoto</strong>, onde o projeto pode ser enviado (<mark class="highlight-teal"><code>push</code></mark>) e de onde também pode ser baixado ou atualizado (<mark class="highlight-teal"><code>pull</code></mark> ou <mark class="highlight-teal"><code>clone</code></mark>).</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-809f-a3b5-df9a35587829" class="">Além de hospedar repositórios, o GitHub oferece várias ferramentas para colaboração e gerenciamento de projetos, como <mark class="highlight-teal"><strong>pull requests</strong></mark> (para revisar e propor mudanças no código), <mark class="highlight-teal"><strong>issues</strong></mark> (para registrar bugs, tarefas ou melhorias), controle de <mark class="highlight-teal"><strong>branches</strong></mark>, histórico visual de commits e integração com ferramentas de automação e testes. Por isso, ele é muito utilizado tanto em projetos profissionais quanto em projetos open source, pois facilita o trabalho em equipe, o compartilhamento de código e o controle organizado das versões de um software.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8068-9e9a-d5f9871e0b9a" class="">
+</p></div><div style="display:contents" dir="auto"><h2 id="320d34f7-f805-80cc-a2f0-d21bdb4f9cf5" class="">Usabilidade do GitHub</h2></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8074-a30a-c8746bd9b302" class="">O <strong>GitHub</strong> é uma plataforma muito intuitiva de usar. Criar um perfil, criar repositórios, pesquisar projetos ou navegar pelo código de outras pessoas acaba sendo algo bem natural depois de alguns minutos explorando o site. Por isso, muitas vezes nem vale a pena anotar passo a passo dessas coisas básicas, porque a interface guia bem o usuário.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80a6-9510-d66aa65efe5f" class="">Muita gente até diz que o GitHub funciona quase como <strong>uma rede social de desenvolvedores</strong>. Lá você pode visitar o perfil de outros programadores, ver os projetos que eles criaram, acompanhar atualizações e explorar os repositórios públicos. Essa parte é extremamente valiosa para aprendizado, porque dá para abrir um projeto e <strong>examinar o código linha por linha</strong>, entendendo como outras pessoas resolveram determinados problemas.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8047-827e-e9774e16e7f1" class="">Quando um repositório é público, também é possível <strong>baixá-lo para o seu computador (clonar o projeto)</strong> e estudá-lo com calma. Assim você pode testar, modificar o código e aprender na unha mesmo, mexendo diretamente nos arquivos e vendo na prática como tudo funciona. Essa troca de conhecimento é uma das coisas que tornam o GitHub tão importante para quem está aprendendo ou trabalhando com programação.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-801a-a7ff-d9b05d1eab79" class="">
+</p></div><div style="display:contents" dir="auto"><h2 id="320d34f7-f805-805a-ad97-fc1e5487b1f7" class="">Os Iniciantes confundem os comandos: Fork, Clone, Pull e Fetch.</h2></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8008-9c9a-dfc8c0abc5e5" class="">
+</p></div><div style="display:contents" dir="auto"><h3 id="320d34f7-f805-804f-b749-f4f79571e1fb" class="">Fork</h3></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-805e-a47f-dc13e153837f" class=""><strong>Fork</strong> é uma funcionalidade do GitHub. Ele cria <strong>uma cópia de um repositório na sua própria conta</strong>. <div class="indented"><div style="display:contents" dir="auto"><p id="320d34f7-f805-80c3-a1d9-ec40872f14b8" class=""><strong>Fluxo:</strong></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="320d34f7-f805-80a1-967b-c63a2701ff80" class="code code-wrap"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Repositório original → Fork → Repositório na sua conta</code></pre></div></div></p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80dc-89aa-f683d28a3463" class="">Isso é muito usado em projetos open source, porque você pode modificar o código sem alterar o projeto original. Depois, se quiser contribuir com melhorias, pode enviar um <strong>pull request</strong>.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8041-bc9f-c43a85e6c1ad" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8057-afbc-cfd4e2681986" class="">
+</p></div><div style="display:contents" dir="auto"><h3 id="320d34f7-f805-80ef-a483-e167928756c2" class="">Clone</h3></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8021-a561-ef88acc557a0" class=""><strong>Clone</strong> é um comando do Git usado para <strong>baixar um repositório remoto para o seu computador</strong>.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80ea-8721-f8510bf645d1" class=""><strong>Comando:</strong></p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8071-953e-f6d0277ee5b4" class=""><mark class="highlight-teal"><code>git clone URL_DO_REPOSITORIO</code></mark></p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8087-be6d-def741ac173d" class=""><strong>Ele cria:</strong></p></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-8015-b5b8-fdc454acb166" class="bulleted-list"><li style="list-style-type:disc">uma cópia completa do projeto</li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-80c2-a0fc-c448a33fac6c" class="bulleted-list"><li style="list-style-type:disc">todo o histórico de commits</li></ul></div><div style="display:contents" dir="auto"><ul id="320d34f7-f805-80ec-8963-ddebcf5a3737" class="bulleted-list"><li style="list-style-type:disc">conexão com o repositório remoto<div style="display:contents" dir="auto"><p id="320d34f7-f805-80b2-ab8e-e5e93b0b66b0" class=""><strong>Fluxo:</strong></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="320d34f7-f805-80e2-9279-c81e3fc0cece" class="code code-wrap"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">GitHub → clone → seu computador</code></pre></div></li></ul></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80ce-a676-f78fb3abef88" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80ce-afcc-e4dc5a6a0c46" class="">
+</p></div><div style="display:contents" dir="auto"><h3 id="320d34f7-f805-8097-9a88-dd3686870a25" class="">Fetch</h3></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8065-b4bd-c198cab0ab27" class=""><strong>Fetch</strong> baixa <strong>novos commits do repositório remoto</strong>, mas <strong>não altera seu código atual</strong>.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8067-ae78-fd4acad63a7b" class="">Comando:</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80c1-bb77-e1e3a42f9df8" class=""><mark class="highlight-teal"><code>git fetch</code></mark><div class="indented"><div style="display:contents" dir="auto"><p id="320d34f7-f805-809f-849e-dd1ba4d46d70" class="">Ele apenas atualiza as referências do repositório remoto. Ou seja, o fluxo é:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="320d34f7-f805-8003-bed4-cb494195be15" class="code code-wrap"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">remote repository → fetch → atualiza informações</code></pre></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80ea-a10d-cffd1fd68b56" class="">Mas seu código <strong>continua igual</strong> até você fazer um merge ou pull.</p></div></div></p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80bc-a6f7-ca1f6553e88f" class="">
+</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-807f-a0a0-cfffeb934f1c" class="">
+</p></div><div style="display:contents" dir="auto"><h3 id="320d34f7-f805-80ba-a865-f3ffd42af996" class="">Pull</h3></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80f6-ae40-ff41eaab7485" class=""><strong>Pull</strong> traz as atualizações do repositório remoto <strong>e já integra essas mudanças na sua branch local</strong>.</p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-805a-872f-c54cb45dcfeb" class=""><strong>Comando:</strong></p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-80a0-bdb1-fd5aa0de0760" class=""><mark class="highlight-teal"><code>git pull</code></mark></p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-8096-bc28-de3608e87449" class=""><strong>Internamente ele faz:</strong></p></div><div style="display:contents" dir="auto"><p id="320d34f7-f805-800b-94f9-d01bc90f0af2" class=""><mark class="highlight-teal"><code>git fetch</code></mark> + <mark class="highlight-teal"><code>git merge</code></mark><div class="indented"><div style="display:contents" dir="auto"><p id="320d34f7-f805-80e5-9bf5-cf96403073a8" class=""><strong>Fluxo:</strong></p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="320d34f7-f805-80e0-9c9a-f6a5a6c03722" class="code code-wrap"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">remote repository → pull → atualiza sua branch</code></pre></div></div></p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
